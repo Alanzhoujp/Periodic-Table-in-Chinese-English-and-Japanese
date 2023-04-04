@@ -1,0 +1,2035 @@
+/*
+PeriodicTable.java
+public class PeriodicTable {
+	public static void main(String[]args) {
+new AtomicNumber();
+}}
+
+*/
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.Font;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
+
+public class AtomicNumber extends JFrame implements ActionListener, ItemListener, MouseListener {
+  private static final long serialVersionUID = 1L;
+  static ButtonGroup periodicTable;
+  ImageIcon[] flag, image, info;
+  ImageIcon OFF, ON, periodicTableIcon;
+  JButton[] button;
+  JLabel[] caption, example, properties, type;
+  JPanel panel;
+  JRadioButton[] element;
+  JTextField title;
+  JToggleButton toggle;
+  String resetMessage, resetTitle, restartMessage, restartTitle;
+
+  AtomicNumber() {
+
+    flag = new ImageIcon[4];
+    flag[0] = new ImageIcon(getClass().getClassLoader().getResource("English.png"));
+    flag[1] = new ImageIcon(getClass().getClassLoader().getResource("Chinese.png"));
+    flag[2] = new ImageIcon(getClass().getClassLoader().getResource("Japanese.png"));
+    button = new JButton[5];
+    button[0] = new JButton();
+    button[0].setBounds(1000, 350, 100, 50);
+    button[0].setIcon(flag[0]);
+    button[0].setToolTipText(null);
+    button[1] = new JButton();
+    button[1].setBounds(1000, 400, 100, 50);
+    button[1].setIcon(flag[1]);
+    button[1].setToolTipText("Switch to Chinese Version");
+    button[2] = new JButton();
+    button[2].setBounds(1000, 450, 100, 50);
+    button[2].setIcon(flag[2]);
+    button[2].setToolTipText("Switch to Japanese Version");
+    button[3] = new JButton("reset");
+    button[3].setBounds(1000, 500, 200, 50);
+    button[3].setToolTipText("Clear All Selections");
+    resetMessage = "Selection has been cleared.";
+    resetTitle = "Reset";
+    button[4] = new JButton("restart");
+    button[4].setBounds(1000, 550, 200, 50);
+    button[4].setToolTipText("Restart the Program");
+    restartMessage = "Program has restarted.";
+    restartTitle = "Restart";
+    for (int i = 1; i < 3; i++) {
+      button[i].addActionListener(this);
+      button[i].setFocusable(false);
+      button[i].setFont(new Font("Microsoft Jhenghei", Font.BOLD, 25));
+      button[i].setPreferredSize(new Dimension(240, 50));
+    }
+    for (int i = 0; i < 5; i++) {
+      if (i >= 1 && i < 3) {
+        continue;
+      }
+      button[i].addActionListener(this);
+      button[i].setFocusable(false);
+      button[i].setFont(new Font("Times New Roman", Font.BOLD, 30));
+      button[i].setPreferredSize(new Dimension(240, 50));
+    }
+    image = new ImageIcon[119];
+    info = new ImageIcon[119];
+    OFF = new ImageIcon(getClass().getClassLoader().getResource("OFF.png"));
+    ON = new ImageIcon(getClass().getClassLoader().getResource("ON.png"));
+    caption = new JLabel[10];
+    example = new JLabel[4];
+    properties = new JLabel[119];
+    type = new JLabel[10];
+    title = new JTextField("The Periodic Table of the Chemical Elements");
+    title.setBounds(100, 0, 1080, 65);
+    title.setEditable(false);
+    title.setFont(new Font("Arial", Font.BOLD, 50));
+    toggle = new JToggleButton();
+    toggle.addItemListener(this);
+    toggle.setBounds(1000, 600, 200, 50);
+    toggle.setIcon(ON);
+    toggle.setToolTipText("This toggle button switches on/off the ability to view the properties of each chemical element.");
+    element = new JRadioButton[119];
+    element[0] = null;
+    image[0] = null;
+    properties[0] = null;
+    element[1] = new JRadioButton("1");
+    element[1].setBounds(50, 75, 50, 50);
+    element[1].setToolTipText("Hydrogen");
+    image[1] = new ImageIcon(getClass().getClassLoader().getResource("H.png"));
+    properties[1] = new JLabel();
+    element[2] = new JRadioButton("2");
+    element[2].setBounds(925, 75, 50, 50);
+    element[2].setToolTipText("Helium");
+    image[2] = new ImageIcon(getClass().getClassLoader().getResource("He.png"));
+    properties[2] = new JLabel();
+    element[3] = new JRadioButton("3");
+    element[3].setToolTipText("Lithium");
+    element[3].setBounds(50, 125, 50, 50);
+    image[3] = new ImageIcon(getClass().getClassLoader().getResource("Li.png"));
+    properties[3] = new JLabel();
+    element[4] = new JRadioButton("4");
+    element[4].setBounds(100, 125, 50, 50);
+    element[4].setToolTipText("Beryllium");
+    image[4] = new ImageIcon(getClass().getClassLoader().getResource("Be.png"));
+    properties[4] = new JLabel();
+    element[5] = new JRadioButton("5");
+    element[5].setBounds(675, 125, 50, 50);
+    element[5].setToolTipText("Boron");
+    image[5] = new ImageIcon(getClass().getClassLoader().getResource("B.png"));
+    properties[5] = new JLabel();
+    element[6] = new JRadioButton("6");
+    element[6].setBounds(725, 125, 50, 50);
+    element[6].setToolTipText("Carbon");
+    image[6] = new ImageIcon(getClass().getClassLoader().getResource("C.png"));
+    properties[6] = new JLabel();
+    element[7] = new JRadioButton("7");
+    element[7].setBounds(775, 125, 50, 50);
+    element[7].setToolTipText("Nitrogen");
+    image[7] = new ImageIcon(getClass().getClassLoader().getResource("N.png"));
+    properties[7] = new JLabel();
+    element[8] = new JRadioButton("8");
+    element[8].setBounds(825, 125, 50, 50);
+    element[8].setToolTipText("Oxygen");
+    image[8] = new ImageIcon(getClass().getClassLoader().getResource("O.png"));
+    properties[8] = new JLabel();
+    element[9] = new JRadioButton("9");
+    element[9].setBounds(875, 125, 50, 50);
+    element[9].setToolTipText("Fluorine");
+    image[9] = new ImageIcon(getClass().getClassLoader().getResource("F.png"));
+    properties[9] = new JLabel();
+    element[10] = new JRadioButton("10");
+    element[10].setBounds(925, 125, 50, 50);
+    element[10].setToolTipText("Neon");
+    image[10] = new ImageIcon(getClass().getClassLoader().getResource("Ne.png"));
+    properties[10] = new JLabel();
+    element[11] = new JRadioButton("11");
+    element[11].setBounds(50, 175, 50, 50);
+    element[11].setToolTipText("Sodium");
+    image[11] = new ImageIcon(getClass().getClassLoader().getResource("Na.png"));
+    properties[11] = new JLabel();
+    element[12] = new JRadioButton("12");
+    element[12].setBounds(100, 175, 50, 50);
+    element[12].setToolTipText("Magnesium");
+    image[12] = new ImageIcon(getClass().getClassLoader().getResource("Mg.png"));
+    properties[12] = new JLabel();
+    element[13] = new JRadioButton("13");
+    element[13].setBounds(675, 175, 50, 50);
+    element[13].setToolTipText("Aluminium");
+    image[13] = new ImageIcon(getClass().getClassLoader().getResource("Al.png"));
+    properties[13] = new JLabel();
+    element[14] = new JRadioButton("14");
+    element[14].setBounds(725, 175, 50, 50);
+    element[14].setToolTipText("Silicon");
+    image[14] = new ImageIcon(getClass().getClassLoader().getResource("Si.png"));
+    properties[14] = new JLabel();
+    element[15] = new JRadioButton("15");
+    element[15].setBounds(775, 175, 50, 50);
+    element[15].setToolTipText("Phosphorus");
+    image[15] = new ImageIcon(getClass().getClassLoader().getResource("P.png"));
+    properties[15] = new JLabel();
+    element[16] = new JRadioButton("16");
+    element[16].setBounds(825, 175, 50, 50);
+    element[16].setToolTipText("Sulfur");
+    image[16] = new ImageIcon(getClass().getClassLoader().getResource("S.png"));
+    properties[16] = new JLabel();
+    element[17] = new JRadioButton("17");
+    element[17].setBounds(875, 175, 50, 50);
+    element[17].setToolTipText("Chlorine");
+    image[17] = new ImageIcon(getClass().getClassLoader().getResource("Cl.png"));
+    properties[17] = new JLabel();
+    element[18] = new JRadioButton("18");
+    element[18].setBounds(925, 175, 50, 50);
+    element[18].setToolTipText("Argon");
+    image[18] = new ImageIcon(getClass().getClassLoader().getResource("Ar.png"));
+    properties[18] = new JLabel();
+    element[19] = new JRadioButton("19");
+    element[19].setBounds(50, 225, 50, 50);
+    element[19].setToolTipText("Potassium");
+    image[19] = new ImageIcon(getClass().getClassLoader().getResource("K.png"));
+    properties[19] = new JLabel();
+    element[20] = new JRadioButton("20");
+    element[20].setBounds(100, 225, 50, 50);
+    element[20].setToolTipText("Calcium");
+    image[20] = new ImageIcon(getClass().getClassLoader().getResource("Ca.png"));
+    properties[20] = new JLabel();
+    element[21] = new JRadioButton("21");
+    element[21].setBounds(150, 225, 50, 50);
+    element[21].setToolTipText("Scandium");
+    image[21] = new ImageIcon(getClass().getClassLoader().getResource("Sc.png"));
+    properties[21] = new JLabel();
+    element[22] = new JRadioButton("22");
+    element[22].setBounds(225, 225, 50, 50);
+    element[22].setToolTipText("Titanium");
+    image[22] = new ImageIcon(getClass().getClassLoader().getResource("Ti.png"));
+    properties[22] = new JLabel();
+    element[23] = new JRadioButton("23");
+    element[23].setBounds(275, 225, 50, 50);
+    element[23].setToolTipText("Vanadium");
+    image[23] = new ImageIcon(getClass().getClassLoader().getResource("V.png"));
+    properties[23] = new JLabel();
+    element[24] = new JRadioButton("24");
+    element[24].setBounds(325, 225, 50, 50);
+    element[24].setToolTipText("Chromium");
+    image[24] = new ImageIcon(getClass().getClassLoader().getResource("Cr.png"));
+    properties[24] = new JLabel();
+    element[25] = new JRadioButton("25");
+    element[25].setBounds(375, 225, 50, 50);
+    element[25].setToolTipText("Manganese");
+    image[25] = new ImageIcon(getClass().getClassLoader().getResource("Mn.png"));
+    properties[25] = new JLabel();
+    element[26] = new JRadioButton("26");
+    element[26].setBounds(425, 225, 50, 50);
+    element[26].setToolTipText("Iron");
+    image[26] = new ImageIcon(getClass().getClassLoader().getResource("Fe.png"));
+    properties[26] = new JLabel();
+    element[27] = new JRadioButton("27");
+    element[27].setBounds(475, 225, 50, 50);
+    element[27].setToolTipText("Cobalt");
+    image[27] = new ImageIcon(getClass().getClassLoader().getResource("Co.png"));
+    properties[27] = new JLabel();
+    element[28] = new JRadioButton("28");
+    element[28].setBounds(525, 225, 50, 50);
+    element[28].setToolTipText("Nickel");
+    image[28] = new ImageIcon(getClass().getClassLoader().getResource("Ni.png"));
+    properties[28] = new JLabel();
+    element[29] = new JRadioButton("29");
+    element[29].setBounds(575, 225, 50, 50);
+    element[29].setToolTipText("Copper");
+    image[29] = new ImageIcon(getClass().getClassLoader().getResource("Cu.png"));
+    properties[29] = new JLabel();
+    element[30] = new JRadioButton("30");
+    element[30].setBounds(625, 225, 50, 50);
+    element[30].setToolTipText("Zinc");
+    image[30] = new ImageIcon(getClass().getClassLoader().getResource("Zn.png"));
+    properties[30] = new JLabel();
+    element[31] = new JRadioButton("31");
+    element[31].setBounds(675, 225, 50, 50);
+    element[31].setToolTipText("Gallium");
+    image[31] = new ImageIcon(getClass().getClassLoader().getResource("Ga.png"));
+    properties[31] = new JLabel();
+    element[32] = new JRadioButton("32");
+    element[32].setBounds(725, 225, 50, 50);
+    element[32].setToolTipText("Germanium");
+    image[32] = new ImageIcon(getClass().getClassLoader().getResource("Ge.png"));
+    properties[32] = new JLabel();
+    element[33] = new JRadioButton("33");
+    element[33].setBounds(775, 225, 50, 50);
+    element[33].setToolTipText("Arsenic");
+    image[33] = new ImageIcon(getClass().getClassLoader().getResource("As.png"));
+    properties[33] = new JLabel();
+    element[34] = new JRadioButton("34");
+    element[34].setBounds(825, 225, 50, 50);
+    element[34].setToolTipText("Selenium");
+    image[34] = new ImageIcon(getClass().getClassLoader().getResource("Se.png"));
+    properties[34] = new JLabel();
+    element[35] = new JRadioButton("35");
+    element[35].setBounds(875, 225, 50, 50);
+    element[35].setToolTipText("Bromine");
+    image[35] = new ImageIcon(getClass().getClassLoader().getResource("Br.png"));
+    properties[35] = new JLabel();
+    element[36] = new JRadioButton("36");
+    element[36].setBounds(925, 225, 50, 50);
+    element[36].setToolTipText("Krypton");
+    image[36] = new ImageIcon(getClass().getClassLoader().getResource("Kr.png"));
+    properties[36] = new JLabel();
+    element[37] = new JRadioButton("37");
+    element[37].setBounds(50, 275, 50, 50);
+    element[37].setToolTipText("Rubidium");
+    image[37] = new ImageIcon(getClass().getClassLoader().getResource("Rb.png"));
+    properties[37] = new JLabel();
+    element[38] = new JRadioButton("38");
+    element[38].setBounds(100, 275, 50, 50);
+    element[38].setToolTipText("Strontium");
+    image[38] = new ImageIcon(getClass().getClassLoader().getResource("Sr.png"));
+    properties[38] = new JLabel();
+    element[39] = new JRadioButton("39");
+    element[39].setBounds(150, 275, 50, 50);
+    element[39].setToolTipText("Yttrium");
+    image[39] = new ImageIcon(getClass().getClassLoader().getResource("Y.png"));
+    properties[39] = new JLabel();
+    element[40] = new JRadioButton("40");
+    element[40].setBounds(225, 275, 50, 50);
+    element[40].setToolTipText("Zirconium");
+    image[40] = new ImageIcon(getClass().getClassLoader().getResource("Zr.png"));
+    properties[40] = new JLabel();
+    element[41] = new JRadioButton("41");
+    element[41].setBounds(275, 275, 50, 50);
+    element[41].setToolTipText("Niobium");
+    image[41] = new ImageIcon(getClass().getClassLoader().getResource("Nb.png"));
+    properties[41] = new JLabel();
+    element[42] = new JRadioButton("42");
+    element[42].setBounds(325, 275, 50, 50);
+    element[42].setToolTipText("Molybdenum");
+    image[42] = new ImageIcon(getClass().getClassLoader().getResource("Mo.png"));
+    properties[42] = new JLabel();
+    element[43] = new JRadioButton("43");
+    element[43].setBounds(375, 275, 50, 50);
+    element[43].setToolTipText("Technetium");
+    image[43] = new ImageIcon(getClass().getClassLoader().getResource("Tc.png"));
+    properties[43] = new JLabel();
+    element[44] = new JRadioButton("44");
+    element[44].setBounds(425, 275, 50, 50);
+    element[44].setToolTipText("Ruthenium");
+    image[44] = new ImageIcon(getClass().getClassLoader().getResource("Ru.png"));
+    properties[44] = new JLabel();
+    element[45] = new JRadioButton("45");
+    element[45].setBounds(475, 275, 50, 50);
+    element[45].setToolTipText("Rhodium");
+    image[45] = new ImageIcon(getClass().getClassLoader().getResource("Rh.png"));
+    properties[45] = new JLabel();
+    element[46] = new JRadioButton("46");
+    element[46].setBounds(525, 275, 50, 50);
+    element[46].setToolTipText("Palladium");
+    image[46] = new ImageIcon(getClass().getClassLoader().getResource("Pd.png"));
+    properties[46] = new JLabel();
+    element[47] = new JRadioButton("47");
+    element[47].setBounds(575, 275, 50, 50);
+    element[47].setToolTipText("Silver");
+    image[47] = new ImageIcon(getClass().getClassLoader().getResource("Ag.png"));
+    properties[47] = new JLabel();
+    element[48] = new JRadioButton("48");
+    element[48].setBounds(625, 275, 50, 50);
+    element[48].setToolTipText("Cadmium");
+    image[48] = new ImageIcon(getClass().getClassLoader().getResource("Cd.png"));
+    properties[48] = new JLabel();
+    element[49] = new JRadioButton("49");
+    element[49].setBounds(675, 275, 50, 50);
+    element[49].setToolTipText("Indium");
+    image[49] = new ImageIcon(getClass().getClassLoader().getResource("In.png"));
+    properties[49] = new JLabel();
+    element[50] = new JRadioButton("50");
+    element[50].setBounds(725, 275, 50, 50);
+    element[50].setToolTipText("Tin");
+    image[50] = new ImageIcon(getClass().getClassLoader().getResource("Sn.png"));
+    properties[50] = new JLabel();
+    element[51] = new JRadioButton("51");
+    element[51].setBounds(775, 275, 50, 50);
+    element[51].setToolTipText("Antimony");
+    image[51] = new ImageIcon(getClass().getClassLoader().getResource("Sb.png"));
+    properties[51] = new JLabel();
+    element[52] = new JRadioButton("52");
+    element[52].setBounds(825, 275, 50, 50);
+    element[52].setToolTipText("Tellurium");
+    image[52] = new ImageIcon(getClass().getClassLoader().getResource("Te.png"));
+    properties[52] = new JLabel();
+    element[53] = new JRadioButton("53");
+    element[53].setBounds(875, 275, 50, 50);
+    element[53].setToolTipText("Iodine");
+    image[53] = new ImageIcon(getClass().getClassLoader().getResource("I.png"));
+    properties[53] = new JLabel();
+    element[54] = new JRadioButton("54");
+    element[54].setBounds(925, 275, 50, 50);
+    element[54].setToolTipText("Xenon");
+    image[54] = new ImageIcon(getClass().getClassLoader().getResource("Xe.png"));
+    properties[54] = new JLabel();
+    element[55] = new JRadioButton("55");
+    element[55].setBounds(50, 325, 50, 50);
+    element[55].setToolTipText("Caesium");
+    image[55] = new ImageIcon(getClass().getClassLoader().getResource("Cs.png"));
+    properties[55] = new JLabel();
+    element[56] = new JRadioButton("56");
+    element[56].setBounds(100, 325, 50, 50);
+    element[56].setToolTipText("Barium");
+    image[56] = new ImageIcon(getClass().getClassLoader().getResource("Ba.png"));
+    properties[56] = new JLabel();
+    element[57] = new JRadioButton("57");
+    element[57].setBounds(150, 325, 50, 50);
+    element[57].setToolTipText("Lanthanum");
+    image[57] = new ImageIcon(getClass().getClassLoader().getResource("La.png"));
+    properties[57] = new JLabel();
+
+    element[72] = new JRadioButton("72");
+    element[72].setBounds(225, 325, 50, 50);
+    element[72].setToolTipText("Hafnium");
+    image[72] = new ImageIcon(getClass().getClassLoader().getResource("Hf.png"));
+    properties[72] = new JLabel();
+    element[73] = new JRadioButton("73");
+    element[73].setBounds(275, 325, 50, 50);
+    element[73].setToolTipText("Tantalum");
+    image[73] = new ImageIcon(getClass().getClassLoader().getResource("Ta.png"));
+    properties[73] = new JLabel();
+    element[74] = new JRadioButton("74");
+    element[74].setBounds(325, 325, 50, 50);
+    element[74].setToolTipText("Tungsten");
+    image[74] = new ImageIcon(getClass().getClassLoader().getResource("W.png"));
+    properties[74] = new JLabel();
+    element[75] = new JRadioButton("75");
+    element[75].setBounds(375, 325, 50, 50);
+    element[75].setToolTipText("Rhenium");
+    image[75] = new ImageIcon(getClass().getClassLoader().getResource("Re.png"));
+    properties[75] = new JLabel();
+    element[76] = new JRadioButton("76");
+    element[76].setBounds(425, 325, 50, 50);
+    element[76].setToolTipText("Osmium");
+    image[76] = new ImageIcon(getClass().getClassLoader().getResource("Os.png"));
+    properties[76] = new JLabel();
+    element[77] = new JRadioButton("77");
+    element[77].setBounds(475, 325, 50, 50);
+    element[77].setToolTipText("Iridium");
+    image[77] = new ImageIcon(getClass().getClassLoader().getResource("Ir.png"));
+    properties[77] = new JLabel();
+    element[78] = new JRadioButton("78");
+    element[78].setBounds(525, 325, 50, 50);
+    element[78].setToolTipText("Platinum");
+    image[78] = new ImageIcon(getClass().getClassLoader().getResource("Pt.png"));
+    properties[78] = new JLabel();
+    element[79] = new JRadioButton("79");
+    element[79].setBounds(575, 325, 50, 50);
+    element[79].setToolTipText("Gold");
+    image[79] = new ImageIcon(getClass().getClassLoader().getResource("Au.png"));
+    properties[79] = new JLabel();
+    element[80] = new JRadioButton("80");
+    element[80].setBounds(625, 325, 50, 50);
+    element[80].setToolTipText("Mercury");
+    image[80] = new ImageIcon(getClass().getClassLoader().getResource("Hg.png"));
+    properties[80] = new JLabel();
+    element[81] = new JRadioButton("81");
+    element[81].setBounds(675, 325, 50, 50);
+    element[81].setToolTipText("Thallium");
+    image[81] = new ImageIcon(getClass().getClassLoader().getResource("Tl.png"));
+    properties[81] = new JLabel();
+    element[82] = new JRadioButton("82");
+    element[82].setBounds(725, 325, 50, 50);
+    element[82].setToolTipText("Lead");
+    image[82] = new ImageIcon(getClass().getClassLoader().getResource("Pb.png"));
+    properties[82] = new JLabel();
+    element[83] = new JRadioButton("83");
+    element[83].setBounds(775, 325, 50, 50);
+    element[83].setToolTipText("Bismuth");
+    image[83] = new ImageIcon(getClass().getClassLoader().getResource("Bi.png"));
+    properties[83] = new JLabel();
+    element[84] = new JRadioButton("84");
+    element[84].setBounds(825, 325, 50, 50);
+    element[84].setToolTipText("Polonium");
+    image[84] = new ImageIcon(getClass().getClassLoader().getResource("Po.png"));
+    properties[84] = new JLabel();
+    element[85] = new JRadioButton("85");
+    element[85].setBounds(875, 325, 50, 50);
+    element[85].setToolTipText("Astatine");
+    image[85] = new ImageIcon(getClass().getClassLoader().getResource("At.png"));
+    properties[85] = new JLabel();
+    element[86] = new JRadioButton("86");
+    element[86].setBounds(925, 325, 50, 50);
+    element[86].setToolTipText("Radon");
+    image[86] = new ImageIcon(getClass().getClassLoader().getResource("Rn.png"));
+    properties[86] = new JLabel();
+    element[87] = new JRadioButton("87");
+    element[87].setBounds(50, 375, 50, 50);
+    element[87].setToolTipText("Francium");
+    image[87] = new ImageIcon(getClass().getClassLoader().getResource("Fr.png"));
+    properties[87] = new JLabel();
+    element[88] = new JRadioButton("88");
+    element[88].setBounds(100, 375, 50, 50);
+    element[88].setToolTipText("Radium");
+    image[88] = new ImageIcon(getClass().getClassLoader().getResource("Ra.png"));
+    properties[88] = new JLabel();
+    element[89] = new JRadioButton("89");
+    element[89].setBounds(150, 375, 50, 50);
+    element[89].setToolTipText("Actinium");
+    image[89] = new ImageIcon(getClass().getClassLoader().getResource("Ac.png"));
+    properties[89] = new JLabel();
+
+    element[104] = new JRadioButton("104");
+    element[104].setBounds(225, 375, 50, 50);
+    element[104].setToolTipText("Rutherfordium");
+    image[104] = new ImageIcon(getClass().getClassLoader().getResource("Rf.png"));
+    properties[104] = new JLabel();
+    element[105] = new JRadioButton("105");
+    element[105].setBounds(275, 375, 50, 50);
+    element[105].setToolTipText("Dubnium");
+    image[105] = new ImageIcon(getClass().getClassLoader().getResource("Db.png"));
+    properties[105] = new JLabel();
+    element[106] = new JRadioButton("106");
+    element[106].setBounds(325, 375, 50, 50);
+    element[106].setToolTipText("Seaborgium");
+    image[106] = new ImageIcon(getClass().getClassLoader().getResource("Sg.png"));
+    properties[106] = new JLabel();
+    element[107] = new JRadioButton("107");
+    element[107].setBounds(375, 375, 50, 50);
+    element[107].setToolTipText("Bohrium");
+    image[107] = new ImageIcon(getClass().getClassLoader().getResource("Bh.png"));
+    properties[107] = new JLabel();
+    element[108] = new JRadioButton("108");
+    element[108].setBounds(425, 375, 50, 50);
+    element[108].setToolTipText("Hassium");
+    image[108] = new ImageIcon(getClass().getClassLoader().getResource("Hs.png"));
+    properties[108] = new JLabel();
+    element[109] = new JRadioButton("109");
+    element[109].setBounds(475, 375, 50, 50);
+    element[109].setToolTipText("Meitnerium");
+    image[109] = new ImageIcon(getClass().getClassLoader().getResource("Mt.png"));
+    properties[109] = new JLabel();
+    element[110] = new JRadioButton("110");
+    element[110].setBounds(525, 375, 50, 50);
+    element[110].setToolTipText("Darmstadtium");
+    image[110] = new ImageIcon(getClass().getClassLoader().getResource("Ds.png"));
+    properties[110] = new JLabel();
+    element[111] = new JRadioButton("111");
+    element[111].setBounds(575, 375, 50, 50);
+    element[111].setToolTipText("Roentgenium");
+    image[111] = new ImageIcon(getClass().getClassLoader().getResource("Rg.png"));
+    properties[111] = new JLabel();
+    element[112] = new JRadioButton("112");
+    element[112].setBounds(625, 375, 50, 50);
+    element[112].setToolTipText("Copernicium");
+    image[112] = new ImageIcon(getClass().getClassLoader().getResource("Cn.png"));
+    properties[112] = new JLabel();
+    element[113] = new JRadioButton("113");
+    element[113].setBounds(675, 375, 50, 50);
+    element[113].setToolTipText("Nihonium");
+    image[113] = new ImageIcon(getClass().getClassLoader().getResource("Nh.png"));
+    properties[113] = new JLabel();
+    element[114] = new JRadioButton("114");
+    element[114].setBounds(725, 375, 50, 50);
+    element[114].setToolTipText("Flerovium");
+    image[114] = new ImageIcon(getClass().getClassLoader().getResource("Fl.png"));
+    properties[114] = new JLabel();
+    element[115] = new JRadioButton("115");
+    element[115].setBounds(775, 375, 50, 50);
+    element[115].setToolTipText("Moscovium");
+    image[115] = new ImageIcon(getClass().getClassLoader().getResource("Mc.png"));
+    properties[115] = new JLabel();
+    element[116] = new JRadioButton("116");
+    element[116].setBounds(825, 375, 50, 50);
+    element[116].setToolTipText("Livermorium");
+    image[116] = new ImageIcon(getClass().getClassLoader().getResource("Lv.png"));
+    properties[116] = new JLabel();
+    element[117] = new JRadioButton("117");
+    element[117].setBounds(875, 375, 50, 50);
+    element[117].setToolTipText("Tennessine");
+    image[117] = new ImageIcon(getClass().getClassLoader().getResource("Ts.png"));
+    properties[117] = new JLabel();
+    element[118] = new JRadioButton("118");
+    element[118].setBounds(925, 375, 50, 50);
+    element[118].setToolTipText("Oganesson");
+    image[118] = new ImageIcon(getClass().getClassLoader().getResource("Og.png"));
+    properties[118] = new JLabel();
+
+    element[58] = new JRadioButton("58");
+    element[58].setBounds(225, 475, 50, 50);
+    element[58].setToolTipText("Cerium");
+    image[58] = new ImageIcon(getClass().getClassLoader().getResource("Ce.png"));
+    properties[58] = new JLabel();
+    element[59] = new JRadioButton("59");
+    element[59].setBounds(275, 475, 50, 50);
+    element[59].setToolTipText("Praseodymium");
+    image[59] = new ImageIcon(getClass().getClassLoader().getResource("Pr.png"));
+    properties[59] = new JLabel();
+    element[60] = new JRadioButton("60");
+    element[60].setBounds(325, 475, 50, 50);
+    element[60].setToolTipText("Neodymium");
+    image[60] = new ImageIcon(getClass().getClassLoader().getResource("Nd.png"));
+    properties[60] = new JLabel();
+    element[61] = new JRadioButton("61");
+    element[61].setBounds(375, 475, 50, 50);
+    element[61].setToolTipText("Promethium");
+    image[61] = new ImageIcon(getClass().getClassLoader().getResource("Pm.png"));
+    properties[61] = new JLabel();
+    element[62] = new JRadioButton("62");
+    element[62].setBounds(425, 475, 50, 50);
+    element[62].setToolTipText("Samarium");
+    image[62] = new ImageIcon(getClass().getClassLoader().getResource("Sm.png"));
+    properties[62] = new JLabel();
+    element[63] = new JRadioButton("63");
+    element[63].setBounds(475, 475, 50, 50);
+    element[63].setToolTipText("Europium");
+    image[63] = new ImageIcon(getClass().getClassLoader().getResource("Eu.png"));
+    properties[63] = new JLabel();
+    element[64] = new JRadioButton("64");
+    element[64].setBounds(525, 475, 50, 50);
+    element[64].setToolTipText("Gadolinium");
+    image[64] = new ImageIcon(getClass().getClassLoader().getResource("Gd.png"));
+    properties[64] = new JLabel();
+    element[65] = new JRadioButton("65");
+    element[65].setBounds(575, 475, 50, 50);
+    element[65].setToolTipText("Terbium");
+    image[65] = new ImageIcon(getClass().getClassLoader().getResource("Tb.png"));
+    properties[65] = new JLabel();
+    element[66] = new JRadioButton("66");
+    element[66].setBounds(625, 475, 50, 50);
+    element[66].setToolTipText("Dysprosium");
+    image[66] = new ImageIcon(getClass().getClassLoader().getResource("Dy.png"));
+    properties[66] = new JLabel();
+    element[67] = new JRadioButton("67");
+    element[67].setBounds(675, 475, 50, 50);
+    element[67].setToolTipText("Holmium");
+    image[67] = new ImageIcon(getClass().getClassLoader().getResource("Ho.png"));
+    properties[67] = new JLabel();
+    element[68] = new JRadioButton("68");
+    element[68].setBounds(725, 475, 50, 50);
+    element[68].setToolTipText("Erbium");
+    image[68] = new ImageIcon(getClass().getClassLoader().getResource("Er.png"));
+    properties[68] = new JLabel();
+    element[69] = new JRadioButton("69");
+    element[69].setBounds(775, 475, 50, 50);
+    element[69].setToolTipText("Thulium");
+    image[69] = new ImageIcon(getClass().getClassLoader().getResource("Tm.png"));
+    properties[69] = new JLabel();
+    element[70] = new JRadioButton("70");
+    element[70].setBounds(825, 475, 50, 50);
+    element[70].setToolTipText("Ytterbium");
+    image[70] = new ImageIcon(getClass().getClassLoader().getResource("Yb.png"));
+    properties[70] = new JLabel();
+    element[71] = new JRadioButton("71");
+    element[71].setBounds(875, 475, 50, 50);
+    element[71].setToolTipText("Lutetium");
+    image[71] = new ImageIcon(getClass().getClassLoader().getResource("Lu.png"));
+    properties[71] = new JLabel();
+
+    element[90] = new JRadioButton("90");
+    element[90].setBounds(225, 525, 50, 50);
+    element[90].setToolTipText("Thorium");
+    image[90] = new ImageIcon(getClass().getClassLoader().getResource("Th.png"));
+    properties[90] = new JLabel();
+    element[91] = new JRadioButton("91");
+    element[91].setBounds(275, 525, 50, 50);
+    element[91].setToolTipText("Protactinium");
+    image[91] = new ImageIcon(getClass().getClassLoader().getResource("Pa.png"));
+    properties[91] = new JLabel();
+    element[92] = new JRadioButton("92");
+    element[92].setBounds(325, 525, 50, 50);
+    element[92].setToolTipText("Uranium");
+    image[92] = new ImageIcon(getClass().getClassLoader().getResource("U.png"));
+    properties[92] = new JLabel();
+    element[93] = new JRadioButton("93");
+    element[93].setBounds(375, 525, 50, 50);
+    element[93].setToolTipText("Neptunium");
+    image[93] = new ImageIcon(getClass().getClassLoader().getResource("Np.png"));
+    properties[93] = new JLabel();
+    element[94] = new JRadioButton("94");
+    element[94].setBounds(425, 525, 50, 50);
+    element[94].setToolTipText("Plutonium");
+    image[94] = new ImageIcon(getClass().getClassLoader().getResource("Pu.png"));
+    properties[94] = new JLabel();
+    element[95] = new JRadioButton("95");
+    element[95].setBounds(475, 525, 50, 50);
+    element[95].setToolTipText("Americium");
+    image[95] = new ImageIcon(getClass().getClassLoader().getResource("Am.png"));
+    properties[95] = new JLabel();
+    element[96] = new JRadioButton("96");
+    element[96].setBounds(525, 525, 50, 50);
+    element[96].setToolTipText("Curium");
+    image[96] = new ImageIcon(getClass().getClassLoader().getResource("Cm.png"));
+    properties[96] = new JLabel();
+    element[97] = new JRadioButton("97");
+    element[97].setBounds(575, 525, 50, 50);
+    element[97].setToolTipText("Berkelium");
+    image[97] = new ImageIcon(getClass().getClassLoader().getResource("Bk.png"));
+    properties[97] = new JLabel();
+    element[98] = new JRadioButton("98");
+    element[98].setBounds(625, 525, 50, 50);
+    element[98].setToolTipText("Californium");
+    image[98] = new ImageIcon(getClass().getClassLoader().getResource("Cf.png"));
+    properties[98] = new JLabel();
+    element[99] = new JRadioButton("99");
+    element[99].setBounds(675, 525, 50, 50);
+    element[99].setToolTipText("Einsteinium");
+    image[99] = new ImageIcon(getClass().getClassLoader().getResource("Es.png"));
+    properties[99] = new JLabel();
+    element[100] = new JRadioButton("100");
+    element[100].setBounds(725, 525, 50, 50);
+    element[100].setToolTipText("Fermium");
+    image[100] = new ImageIcon(getClass().getClassLoader().getResource("Fm.png"));
+    properties[100] = new JLabel();
+    element[101] = new JRadioButton("101");
+    element[101].setBounds(775, 525, 50, 50);
+    element[101].setToolTipText("Mendelevium");
+    image[101] = new ImageIcon(getClass().getClassLoader().getResource("Md.png"));
+    properties[101] = new JLabel();
+    element[102] = new JRadioButton("102");
+    element[102].setBounds(825, 525, 50, 50);
+    element[102].setToolTipText("Nobelium");
+    image[102] = new ImageIcon(getClass().getClassLoader().getResource("No.png"));
+    properties[102] = new JLabel();
+    element[103] = new JRadioButton("103");
+    element[103].setBounds(875, 525, 50, 50);
+    element[103].setToolTipText("Lawrencium");
+    image[103] = new ImageIcon(getClass().getClassLoader().getResource("Lr.png"));
+    properties[103] = new JLabel();
+
+    example[0] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("example[0].png")));
+    example[0].setBounds(375, 0, 300, 290);
+
+    caption[0] = new JLabel("actinides");
+    caption[0].setBounds(490, 563, 300, 100);
+    Color actinides = new Color(255, 153, 204);
+    caption[0].setForeground(actinides);
+    type[0] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("actinides.png")));
+    type[0].setBounds(430, 588, 50, 50);
+
+    caption[1] = new JLabel("alkali metals");
+    caption[1].setBounds(65, 425, 300, 100);
+    Color alkaliMetals = new Color(255, 102, 102);
+    caption[1].setForeground(alkaliMetals);
+    type[1] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("alkaliMetals.png")));
+    type[1].setBounds(5, 450, 50, 50);
+
+    caption[2] = new JLabel("alkaline earth metals");
+    caption[2].setBounds(65, 500, 300, 100);
+    Color alkalineEarthMetals = new Color(255, 222, 173);
+    caption[2].setForeground(alkalineEarthMetals);
+    type[2] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("alkalineEarthMetals.png")));
+    type[2].setBounds(5, 525, 50, 50);
+
+    caption[3] = new JLabel("lanthanides");
+    caption[3].setBounds(285, 563, 300, 100);
+    Color lanthanides = new Color(255, 191, 255);
+    caption[3].setForeground(lanthanides);
+    type[3] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("lanthanides.png")));
+    type[3].setBounds(225, 588, 50, 50);
+
+    caption[4] = new JLabel("metalloids");
+    caption[4].setBounds(737, 45, 300, 100);
+    Color metalloids = new Color(204, 204, 153);
+    caption[4].setForeground(metalloids);
+    type[4] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("metalloids.png")));
+    type[4].setBounds(677, 70, 50, 50);
+
+    caption[5] = new JLabel("noble gases");
+    caption[5].setBounds(1060, 75, 300, 100);
+    Color nobleGases = new Color(192, 255, 255);
+    caption[5].setForeground(nobleGases);
+    type[5] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("nobleGases.png")));
+    type[5].setBounds(1000, 100, 50, 50);
+
+    caption[6] = new JLabel("post-transition metals");
+    caption[6].setBounds(688, 563, 300, 100);
+    Color postTransitionMetals = new Color(204, 204, 204);
+    caption[6].setForeground(postTransitionMetals);
+    type[6] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("postTransitionMetals.png")));
+    type[6].setBounds(628, 588, 50, 50);
+
+    caption[7] = new JLabel("reactive nonmetals");
+    caption[7].setBounds(1060, 150, 300, 100);
+    Color reactiveNonmetals = new Color(241, 255, 150);
+    caption[7].setForeground(reactiveNonmetals);
+    type[7] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("reactiveNonmetals.png")));
+    type[7].setBounds(1000, 175, 50, 50);
+
+    caption[8] = new JLabel("transition metals");
+    caption[8].setBounds(212, 125, 300, 100);
+    Color transitionMetals = new Color(255, 192, 192);
+    caption[8].setForeground(transitionMetals);
+    type[8] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("transitionMetals.png")));
+    type[8].setBounds(152, 150, 50, 50);
+
+    caption[9] = new JLabel("unknown properties");
+    caption[9].setBounds(1060, 225, 300, 100);
+    Color unknownProperties = new Color(236, 236, 236);
+    caption[9].setForeground(unknownProperties);
+    type[9] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("unknownProperties.png")));
+    type[9].setBounds(1000, 250, 50, 50);
+
+    for (int i = 0; i < 10; i++) {
+      if (i == 2) {
+        continue;
+      }
+      if (i == 8) {
+        continue;
+      }
+      if (i == 9) {
+        continue;
+      }
+      caption[i].setFont(new Font("Times New Roman", Font.BOLD, 25));
+    }
+    caption[2].setFont(new Font("Times New Roman", Font.BOLD, 17));
+    caption[8].setFont(new Font("Times New Roman", Font.BOLD, 22));
+    caption[9].setFont(new Font("Times New Roman", Font.BOLD, 24));
+
+    example[0] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("example[0].png")));
+    example[1] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("example[1].png")));
+    example[2] = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("example[2].png")));
+    for (int i = 0; i < 3; i++) {
+      example[i].setBounds(375, 0, 300, 290);
+    }
+
+    periodicTableIcon = new ImageIcon(getClass().getClassLoader().getResource("periodicTableIcon.png"));
+    periodicTable = new ButtonGroup();
+    panel = new JPanel();
+    panel.add(example[0]);
+    panel.add(title);
+    panel.add(toggle);
+    for (int i = 1; i < 119; i++) {
+      {
+        element[i].addMouseListener(this);
+        element[i].setFocusable(false);
+        element[i].setIcon(image[i]);
+        element[i].setHorizontalTextPosition(SwingConstants.CENTER);
+        element[i].setVerticalTextPosition(SwingConstants.TOP);
+        periodicTable.add(element[i]);
+        panel.add(element[i]);
+        //panel.add(properties[i]);
+      }
+    }
+    for (int i = 0; i < 5; i++) {
+      panel.add(button[i]);
+    }
+    for (int i = 0; i < 10; i++) {
+      panel.add(type[i]);
+      panel.add(caption[i]);
+    }
+    panel.setLayout(null);
+    panel.setOpaque(false);
+    this.add(panel);
+    this.addMouseListener(null);
+    this.getContentPane().setBackground(Color.WHITE);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setIconImage(periodicTableIcon.getImage());
+    this.setSize(1500, 1500);
+    this.setTitle("The Periodic Table of the Chemical Elements");
+    this.setVisible(true);
+  }
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == button[0]) {
+      JOptionPane.showMessageDialog(null, "The program has been switched to English version.", "English Version", JOptionPane.INFORMATION_MESSAGE);
+      for (int i = 3; i < 5; i++) {
+        button[i].setFont(new Font("Times New Roman", Font.BOLD, 30));
+      }
+      button[3].setText("reset");
+      button[4].setText("restart");
+      button[0].setToolTipText(null);
+      button[1].setToolTipText("Switch to Chinese Version");
+      button[2].setToolTipText("Switch to Japanese Version");
+      button[3].setToolTipText("Clear All Selections");
+      button[4].setToolTipText("Restart the Program");
+      resetMessage = "Selection has been cleared.";
+      resetTitle = "Reset";
+      restartMessage = "Program has restarted.";
+      restartTitle = "Restart";
+      this.setTitle("The Periodic Table of the Chemical Elements");
+      title.setBounds(100, 0, 1080, 65);
+      title.setFont(new Font("Arial", Font.BOLD, 50));
+      title.setText("The Periodic Table of the Chemical Elements");
+      toggle.setToolTipText("This toggle button switches on/off the ability to view the properties of each chemical element");
+      element[1].setToolTipText("Hydrogen");
+      element[2].setToolTipText("Helium");
+      element[3].setToolTipText("Lithium");
+      element[4].setToolTipText("Beryllium");
+      element[5].setToolTipText("Boron");
+      element[6].setToolTipText("Carbon");
+      element[7].setToolTipText("Nitrogen");
+      element[8].setToolTipText("Oxygen");
+      element[9].setToolTipText("Fluorine");
+      element[10].setToolTipText("Neon");
+      element[11].setToolTipText("Sodium");
+      element[12].setToolTipText("Magnesium");
+      element[13].setToolTipText("Aluminium");
+      element[14].setToolTipText("Silicon");
+      element[15].setToolTipText("Phosphorus");
+      element[16].setToolTipText("Sulfur");
+      element[17].setToolTipText("Chlorine");
+      element[18].setToolTipText("Argon");
+      element[19].setToolTipText("Potassium");
+      element[20].setToolTipText("Calcium");
+      element[21].setToolTipText("Scandium");
+      element[22].setToolTipText("Titanium");
+      element[23].setToolTipText("Vanadium");
+      element[24].setToolTipText("Chromium");
+      element[25].setToolTipText("Manganese");
+      element[26].setToolTipText("Iron");
+      element[27].setToolTipText("Cobalt");
+      element[28].setToolTipText("Nickel");
+      element[29].setToolTipText("Copper");
+      element[30].setToolTipText("Zinc");
+      element[31].setToolTipText("Gallium");
+      element[32].setToolTipText("Germanium");
+      element[33].setToolTipText("Arsenic");
+      element[34].setToolTipText("Selenium");
+      element[35].setToolTipText("Bromine");
+      element[36].setToolTipText("Krypton");
+      element[37].setToolTipText("Rubidium");
+      element[38].setToolTipText("Strontium");
+      element[39].setToolTipText("Yttrium");
+      element[40].setToolTipText("Zirconium");
+      element[41].setToolTipText("Niobium");
+      element[42].setToolTipText("Molybdenum");
+      element[43].setToolTipText("Technetium");
+      element[44].setToolTipText("Ruthenium");
+      element[45].setToolTipText("Rhodium");
+      element[46].setToolTipText("Palladium");
+      element[47].setToolTipText("Silver");
+      element[48].setToolTipText("Cadmium");
+      element[49].setToolTipText("Indium");
+      element[50].setToolTipText("Tin");
+      element[51].setToolTipText("Antimony");
+      element[52].setToolTipText("Tellurium");
+      element[53].setToolTipText("Iodine");
+      element[54].setToolTipText("Xenon");
+      element[55].setToolTipText("Caesium");
+      element[56].setToolTipText("Barium");
+      element[57].setToolTipText("Lanthanum");
+
+      element[72].setToolTipText("Hafnium");
+      element[73].setToolTipText("Tantalum");
+      element[74].setToolTipText("Tungsten");
+      element[75].setToolTipText("Rhenium");
+      element[76].setToolTipText("Osmium");
+      element[77].setToolTipText("Iridium");
+      element[78].setToolTipText("Platinum");
+      element[79].setToolTipText("Gold");
+      element[80].setToolTipText("Mercury");
+      element[81].setToolTipText("Thallium");
+      element[82].setToolTipText("Lead");
+      element[83].setToolTipText("Bismuth");
+      element[84].setToolTipText("Polonium");
+      element[85].setToolTipText("Astatine");
+      element[86].setToolTipText("Radon");
+      element[87].setToolTipText("Francium");
+      element[88].setToolTipText("Radium");
+      element[89].setToolTipText("Actinium");
+
+      element[104].setToolTipText("Rutherfordium");
+      element[105].setToolTipText("Dubnium");
+      element[106].setToolTipText("Seaborgium");
+      element[107].setToolTipText("Bohrium");
+      element[108].setToolTipText("Hassium");
+      element[109].setToolTipText("Meitnerium");
+      element[110].setToolTipText("Darmstadtium");
+      element[111].setToolTipText("Roentgenium");
+      element[112].setToolTipText("Copernicium");
+      element[113].setToolTipText("Nihonium");
+      element[114].setToolTipText("Flerovium");
+      element[115].setToolTipText("Moscovium");
+      element[116].setToolTipText("Livermorium");
+      element[117].setToolTipText("Tennessine");
+      element[118].setToolTipText("Oganesson");
+
+      element[58].setToolTipText("Cerium");
+      element[59].setToolTipText("Praseodymium");
+      element[60].setToolTipText("Neodymium");
+      element[61].setToolTipText("Promethium");
+      element[62].setToolTipText("Samarium");
+      element[63].setToolTipText("Europium");
+      element[64].setToolTipText("Gadolinium");
+      element[65].setToolTipText("Terbium");
+      element[66].setToolTipText("Dysprosium");
+      element[67].setToolTipText("Holmium");
+      element[68].setToolTipText("Erbium");
+      element[69].setToolTipText("Thulium");
+      element[70].setToolTipText("Ytterbium");
+      element[71].setToolTipText("Lutetium");
+
+      element[90].setToolTipText("Thorium");
+      element[91].setToolTipText("Protactinium");
+      element[92].setToolTipText("Uranium");
+      element[93].setToolTipText("Neptunium");
+      element[94].setToolTipText("Plutonium");
+      element[95].setToolTipText("Americium");
+      element[96].setToolTipText("Curium");
+      element[97].setToolTipText("Berkelium");
+      element[98].setToolTipText("Californium");
+      element[99].setToolTipText("Einsteinium");
+      element[100].setToolTipText("Fermium");
+      element[101].setToolTipText("Mendelevium");
+      element[102].setToolTipText("Nobelium");
+      element[103].setToolTipText("Lawrencium");
+
+      caption[0].setText("actinides");
+      caption[1].setText("alkali metals");
+      caption[2].setText("alkaline earth metals");
+      caption[3].setText("lanthanides");
+      caption[4].setText("metalloids");
+      caption[5].setText("noble gases");
+      caption[6].setText("post-transition metals");
+      caption[7].setText("reactive nonmetals");
+      caption[8].setText("transition metals");
+      caption[9].setText("unknown properties");
+      for (int j = 0; j < 10; j++) {
+        if (j == 2) {
+          continue;
+        }
+        if (j == 8) {
+          continue;
+        }
+        if (j == 9) {
+          continue;
+        }
+        caption[j].setFont(new Font("Times New Roman", Font.BOLD, 25));
+      }
+      caption[2].setFont(new Font("Times New Roman", Font.BOLD, 17));
+      caption[8].setFont(new Font("Times New Roman", Font.BOLD, 22));
+      caption[9].setFont(new Font("Times New Roman", Font.BOLD, 24));
+
+      panel.remove(example[1]);
+      panel.remove(example[2]);
+      panel.add(example[0]);
+
+    } else if (e.getSource() == button[1]) {
+      JOptionPane.showMessageDialog(null, "程序已切换至中文版本。", "中文版", JOptionPane.INFORMATION_MESSAGE);
+      for (int i = 3; i < 5; i++) {
+        button[i].setFont(new Font("Microsoft Jhenghei", Font.BOLD, 25));
+        button[3].setText("重置");
+        button[4].setText("重启");
+      }
+      button[0].setToolTipText("切换至英文版");
+      button[1].setToolTipText(null);
+      button[2].setToolTipText("切换至日文版");
+      button[3].setToolTipText("清空所有选项");
+      button[4].setToolTipText("重启程序");
+
+      resetMessage = "选项已清空。";
+      resetTitle = "重置";
+      restartMessage = "程序已重启。";
+      restartTitle = "重启";
+      this.setTitle("化学元素周期表");
+      title.setBounds(400, 0, 430, 65);
+      title.setFont(new Font("Microsoft Jhenghei", Font.BOLD, 60));
+      title.setText("化学元素周期表");
+      toggle.setToolTipText("此切换按钮打开/关闭查看每个化学元素属性的功能");
+      element[1].setToolTipText("氢");
+      element[2].setToolTipText("氦");
+      element[3].setToolTipText("锂");
+      element[4].setToolTipText("铍");
+      element[5].setToolTipText("硼");
+      element[6].setToolTipText("碳");
+      element[7].setToolTipText("氮");
+      element[8].setToolTipText("氧");
+      element[9].setToolTipText("氟");
+      element[10].setToolTipText("氖");
+      element[11].setToolTipText("钠");
+      element[12].setToolTipText("镁");
+      element[13].setToolTipText("铝");
+      element[14].setToolTipText("硅");
+      element[15].setToolTipText("磷");
+      element[16].setToolTipText("硫");
+      element[17].setToolTipText("氯");
+      element[18].setToolTipText("氩");
+      element[19].setToolTipText("钾");
+      element[20].setToolTipText("钙");
+      element[21].setToolTipText("钪");
+      element[22].setToolTipText("钛");
+      element[23].setToolTipText("钒");
+      element[24].setToolTipText("铬");
+      element[25].setToolTipText("锰");
+      element[26].setToolTipText("铁");
+      element[27].setToolTipText("钴");
+      element[28].setToolTipText("镍");
+      element[29].setToolTipText("铜");
+      element[30].setToolTipText("锌");
+      element[31].setToolTipText("镓");
+      element[32].setToolTipText("锗");
+      element[33].setToolTipText("砷");
+      element[34].setToolTipText("硒");
+      element[35].setToolTipText("溴");
+      element[36].setToolTipText("氪");
+      element[37].setToolTipText("铷");
+      element[38].setToolTipText("锶");
+      element[39].setToolTipText("钇");
+      element[40].setToolTipText("锆");
+      element[41].setToolTipText("铌");
+      element[42].setToolTipText("钼");
+      element[43].setToolTipText("锝");
+      element[44].setToolTipText("钌");
+      element[45].setToolTipText("铑");
+      element[46].setToolTipText("钯");
+      element[47].setToolTipText("银");
+      element[48].setToolTipText("镉");
+      element[49].setToolTipText("铟");
+      element[50].setToolTipText("锡");
+      element[51].setToolTipText("锑");
+      element[52].setToolTipText("碲");
+      element[53].setToolTipText("碘");
+      element[54].setToolTipText("氙");
+      element[55].setToolTipText("铯");
+      element[56].setToolTipText("钡");
+      element[57].setToolTipText("镧");
+
+      element[72].setToolTipText("铪");
+      element[73].setToolTipText("钽");
+      element[74].setToolTipText("钨");
+      element[75].setToolTipText("铼");
+      element[76].setToolTipText("锇");
+      element[77].setToolTipText("铱");
+      element[78].setToolTipText("铂");
+      element[79].setToolTipText("金");
+      element[80].setToolTipText("汞");
+      element[81].setToolTipText("铊");
+      element[82].setToolTipText("铅");
+      element[83].setToolTipText("铋");
+      element[84].setToolTipText("钋");
+      element[85].setToolTipText("砹");
+      element[86].setToolTipText("氡");
+      element[87].setToolTipText("钫");
+      element[88].setToolTipText("镭");
+      element[89].setToolTipText("锕");
+
+      element[104].setToolTipText("𬬻");
+      element[105].setToolTipText("𬭊");
+      element[106].setToolTipText("𬭳");
+      element[107].setToolTipText("𬭛");
+      element[108].setToolTipText("𬭶");
+      element[109].setToolTipText("鿏");
+      element[110].setToolTipText("𫟼");
+      element[111].setToolTipText("𬬭");
+      element[112].setToolTipText("鿔");
+      element[113].setToolTipText("鉨");
+      element[114].setToolTipText("𫓧");
+      element[115].setToolTipText("镆");
+      element[116].setToolTipText("𫟷");
+      element[117].setToolTipText("鿬");
+      element[118].setToolTipText("鿫");
+
+      element[58].setToolTipText("铈");
+      element[59].setToolTipText("镨");
+      element[60].setToolTipText("钕");
+      element[61].setToolTipText("钷");
+      element[62].setToolTipText("钐");
+      element[63].setToolTipText("铕");
+      element[64].setToolTipText("钆");
+      element[65].setToolTipText("铽");
+      element[66].setToolTipText("镝");
+      element[67].setToolTipText("钬");
+      element[68].setToolTipText("铒");
+      element[69].setToolTipText("铥");
+      element[70].setToolTipText("镱");
+      element[71].setToolTipText("镥");
+
+      element[90].setToolTipText("钍");
+      element[91].setToolTipText("镤");
+      element[92].setToolTipText("铀");
+      element[93].setToolTipText("镎");
+      element[94].setToolTipText("钚");
+      element[95].setToolTipText("镅");
+      element[96].setToolTipText("锔");
+      element[97].setToolTipText("锫");
+      element[98].setToolTipText("锎");
+      element[99].setToolTipText("锿");
+      element[100].setToolTipText("镄");
+      element[101].setToolTipText("钔");
+      element[102].setToolTipText("锘");
+      element[103].setToolTipText("铹");
+
+      caption[0].setText("锕系");
+      caption[1].setText("碱金属");
+      caption[2].setText("碱土金属");
+      caption[3].setText("镧系");
+      caption[4].setText("类金属");
+      caption[5].setText("惰性气体");
+      caption[6].setText("后过渡金属");
+      caption[7].setText("非金属");
+      caption[8].setText("过渡金属");
+      caption[9].setText("未知属性");
+
+      for (int i = 0; i < 10; i++) {
+        caption[i].setFont(new Font("Microsoft Jhenghei", Font.BOLD, 25));
+      }
+
+      panel.remove(example[0]);
+      panel.remove(example[2]);
+      panel.add(example[1]);
+
+    } else if (e.getSource() == button[2]) {
+      JOptionPane.showMessageDialog(null, "プログラムは日本語版に切り替えました。", "日本語版", JOptionPane.INFORMATION_MESSAGE);
+      for (int i = 3; i < 5; i++) {
+        button[i].setFont(new Font("Microsoft Jhenghei", Font.BOLD, 25));
+        button[3].setText("リセット");
+        button[4].setText("リスタート");
+      }
+      button[0].setToolTipText("英語版に切り替える");
+      button[1].setToolTipText("中国版に切り替える");
+      button[2].setToolTipText(null);
+      button[3].setToolTipText("全ての選択をクリアする");
+      button[4].setToolTipText("プログラムを再起動する");
+      resetMessage = "選択はクリアされました。";
+      resetTitle = "リセット";
+      restartMessage = "プログラムは再起動しました。";
+      restartTitle = "リスタート";
+      this.setTitle("化学元素の周期表");
+      title.setBounds(350, 0, 490, 65);
+      title.setFont(new Font("Microsoft Jhenghei", Font.BOLD, 60));
+      title.setText("化学元素の周期表");
+      toggle.setToolTipText("このトグルボタンは、各化学元素の性質を表示する機能のオン/オフを切り替えます");
+      element[1].setToolTipText("水素");
+      element[2].setToolTipText("ヘリウム");
+      element[3].setToolTipText("リチウム");
+      element[4].setToolTipText("ベリリウム");
+      element[5].setToolTipText("ホウ素");
+      element[6].setToolTipText("炭素");
+      element[7].setToolTipText("窒素");
+      element[8].setToolTipText("酸素");
+      element[9].setToolTipText("フッ素");
+      element[10].setToolTipText("ネオン");
+      element[11].setToolTipText("ナトリウム");
+      element[12].setToolTipText("マグネシウム");
+      element[13].setToolTipText("アルミニウム");
+      element[14].setToolTipText("ケイ素");
+      element[15].setToolTipText("リン");
+      element[16].setToolTipText("硫黄");
+      element[17].setToolTipText("塩素");
+      element[18].setToolTipText("アルゴン");
+      element[19].setToolTipText("カリウム");
+      element[20].setToolTipText("カルシウム");
+      element[21].setToolTipText("スカンジウム");
+      element[22].setToolTipText("チタン");
+      element[23].setToolTipText("バナジウム");
+      element[24].setToolTipText("クロム");
+      element[25].setToolTipText("マンガン");
+      element[26].setToolTipText("鉄");
+      element[27].setToolTipText("コバルト");
+      element[28].setToolTipText("ニッケル");
+      element[29].setToolTipText("銅");
+      element[30].setToolTipText("亜鉛");
+      element[31].setToolTipText("ガリウム");
+      element[32].setToolTipText("ゲルマニウム");
+      element[33].setToolTipText("ヒ素");
+      element[34].setToolTipText("セレン");
+      element[35].setToolTipText("臭素");
+      element[36].setToolTipText("クリプトン");
+      element[37].setToolTipText("ルビジウム");
+      element[38].setToolTipText("ストロンチウム");
+      element[39].setToolTipText("イットリウム");
+      element[40].setToolTipText("ジルコニウム");
+      element[41].setToolTipText("ニオブ");
+      element[42].setToolTipText("モリブデン");
+      element[43].setToolTipText("テクネチウム");
+      element[44].setToolTipText("ルテニウム");
+      element[45].setToolTipText("ロジウム");
+      element[46].setToolTipText("パラジウム");
+      element[47].setToolTipText("銀");
+      element[48].setToolTipText("カドミウム");
+      element[49].setToolTipText("インジウム");
+      element[50].setToolTipText("スズ");
+      element[51].setToolTipText("アンチモン");
+      element[52].setToolTipText("テルル");
+      element[53].setToolTipText("ヨウ素");
+      element[54].setToolTipText("キセノン");
+      element[55].setToolTipText("セシウム");
+      element[56].setToolTipText("バリウム");
+      element[57].setToolTipText("ランタン");
+
+      element[72].setToolTipText("ハフニウム");
+      element[73].setToolTipText("タンタル");
+      element[74].setToolTipText("タングステン");
+      element[75].setToolTipText("レニウム");
+      element[76].setToolTipText("オスミウム");
+      element[77].setToolTipText("イリジウム");
+      element[78].setToolTipText("白金");
+      element[79].setToolTipText("金");
+      element[80].setToolTipText("水銀");
+      element[81].setToolTipText("タリウム");
+      element[82].setToolTipText("鉛");
+      element[83].setToolTipText("ビスマス");
+      element[84].setToolTipText("ポロニウム");
+      element[85].setToolTipText("アスタチン");
+      element[86].setToolTipText("ラドン");
+      element[87].setToolTipText("フランシウム");
+      element[88].setToolTipText("ラジウム");
+      element[89].setToolTipText("アクチニウム");
+
+      element[104].setToolTipText("ラザホージウム");
+      element[105].setToolTipText("ドブニウム");
+      element[106].setToolTipText("シーボーギウム");
+      element[107].setToolTipText("ボーリウム");
+      element[108].setToolTipText("ハッシウム");
+      element[109].setToolTipText("マイトネリウム");
+      element[110].setToolTipText("ダームスタチウム");
+      element[111].setToolTipText("レントゲニウム");
+      element[112].setToolTipText("コペルニシウム");
+      element[113].setToolTipText("ニホニウム");
+      element[114].setToolTipText("フレロビウム");
+      element[115].setToolTipText("モスコビウム");
+      element[116].setToolTipText("リバモリウム");
+      element[117].setToolTipText("テネシン");
+      element[118].setToolTipText("オガネソン");
+
+      element[58].setToolTipText("セリウム");
+      element[59].setToolTipText("プラセオジム");
+      element[60].setToolTipText("ネオジム");
+      element[61].setToolTipText("プロメチウム");
+      element[62].setToolTipText("サマリウム");
+      element[63].setToolTipText("ユウロピウム");
+      element[64].setToolTipText("ガドリニウム");
+      element[65].setToolTipText("テルビウム");
+      element[66].setToolTipText("ジスプロシウム");
+      element[67].setToolTipText("ホルミウム");
+      element[68].setToolTipText("エルビウム");
+      element[69].setToolTipText("ツリウム");
+      element[70].setToolTipText("イッテルビウム");
+      element[71].setToolTipText("ルテチウム");
+
+      element[90].setToolTipText("トリウム");
+      element[91].setToolTipText("プロトアクチニウム");
+      element[92].setToolTipText("ウラン");
+      element[93].setToolTipText("ネプツニウム");
+      element[94].setToolTipText("プルトニウム");
+      element[95].setToolTipText("アメリシウム");
+      element[96].setToolTipText("キュリウム");
+      element[97].setToolTipText("バークリウム");
+      element[98].setToolTipText("カリホルニウム");
+      element[99].setToolTipText("アインスタイニウム");
+      element[100].setToolTipText("フェルミウム");
+      element[101].setToolTipText("メンデレビウム");
+      element[102].setToolTipText("ノーベリウム");
+      element[103].setToolTipText("ローレンシウム");
+
+      caption[0].setText("アクチノイド");
+      caption[1].setText("アルカリ金属");
+      caption[2].setText("アルカリ土類金属");
+      caption[3].setText("ランタノイド");
+      caption[4].setText("半金属");
+      caption[5].setText("希ガス");
+      caption[6].setText("貧金属");
+      caption[7].setText("非金属元素");
+      caption[8].setText("遷移元素");
+      caption[9].setText("不明な性質");
+      for (int i = 0; i < 10; i++) {
+        caption[i].setFont(new Font("Microsoft Jhenghei", Font.BOLD, 20));
+      }
+      panel.remove(example[0]);
+      panel.remove(example[1]);
+      panel.add(example[2]);
+    }
+
+    if (e.getSource() == button[3]) {
+      periodicTable.clearSelection();
+      JOptionPane.showMessageDialog(null, resetMessage, resetTitle, JOptionPane.INFORMATION_MESSAGE);
+
+    } else if (e.getSource() == button[4]) {
+      EventQueue.invokeLater(new Runnable() {
+        public void run() {
+          new AtomicNumber();
+          JOptionPane.showMessageDialog(null, restartMessage, restartTitle, JOptionPane.INFORMATION_MESSAGE);
+        }
+      });
+    }
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+
+    /*  new Properties();
+
+      if (e.getSource() == element[1]) {
+        new Properties().setVisible(true);
+      } else if (e.getSource() == element[2]) {
+        Properties.propertiesPanel.remove(properties[1]);
+        Properties.propertiesPanel.add(properties[2]);
+        Properties.propertiesPanel.revalidate();
+        Properties.propertiesPanel.repaint();
+
+        new Properties().setVisible(true);
+
+      }*/
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+    for (int i = 0; i < 119; i++) {
+      if (e.getSource() == element[i]) {
+        element[i].setIcon(info[i]);
+      }
+
+      if (e.getSource() == element[1]) {
+        info[1] = new ImageIcon(getClass().getClassLoader().getResource("H_.png"));
+        element[1].setBounds(50, 75, 100, 100);
+      } else if (e.getSource() == element[2]) {
+        info[2] = new ImageIcon(getClass().getClassLoader().getResource("He_.png"));
+        element[2].setBounds(925, 75, 100, 100);
+      } else if (e.getSource() == element[3]) {
+        info[3] = new ImageIcon(getClass().getClassLoader().getResource("Li_.png"));
+        element[3].setBounds(50, 125, 100, 100);
+      } else if (e.getSource() == element[4]) {
+        info[4] = new ImageIcon(getClass().getClassLoader().getResource("Be_.png"));
+        element[4].setBounds(100, 125, 100, 100);
+      } else if (e.getSource() == element[5]) {
+        info[5] = new ImageIcon(getClass().getClassLoader().getResource("B_.png"));
+        element[5].setBounds(675, 125, 100, 100);
+      } else if (e.getSource() == element[6]) {
+        info[6] = new ImageIcon(getClass().getClassLoader().getResource("C_.png"));
+        element[6].setBounds(725, 125, 100, 100);
+      } else if (e.getSource() == element[7]) {
+        info[7] = new ImageIcon(getClass().getClassLoader().getResource("N_.png"));
+        element[7].setBounds(775, 125, 100, 100);
+      } else if (e.getSource() == element[8]) {
+        info[8] = new ImageIcon(getClass().getClassLoader().getResource("O_.png"));
+        element[8].setBounds(825, 125, 100, 100);
+      } else if (e.getSource() == element[9]) {
+        info[9] = new ImageIcon(getClass().getClassLoader().getResource("F_.png"));
+        element[9].setBounds(875, 125, 100, 100);
+      } else if (e.getSource() == element[10]) {
+        info[10] = new ImageIcon(getClass().getClassLoader().getResource("Ne_.png"));
+        element[10].setBounds(925, 125, 100, 100);
+      } else if (e.getSource() == element[11]) {
+        info[11] = new ImageIcon(getClass().getClassLoader().getResource("Na_.png"));
+        element[11].setBounds(50, 175, 100, 100);
+      } else if (e.getSource() == element[12]) {
+        info[12] = new ImageIcon(getClass().getClassLoader().getResource("Mg_.png"));
+        element[12].setBounds(100, 175, 100, 100);
+      } else if (e.getSource() == element[13]) {
+        info[13] = new ImageIcon(getClass().getClassLoader().getResource("Al_.png"));
+        element[13].setBounds(675, 175, 100, 100);
+      } else if (e.getSource() == element[14]) {
+        info[14] = new ImageIcon(getClass().getClassLoader().getResource("Si_.png"));
+        element[14].setBounds(725, 175, 100, 100);
+      } else if (e.getSource() == element[15]) {
+        info[15] = new ImageIcon(getClass().getClassLoader().getResource("P_.png"));
+        element[15].setBounds(775, 175, 100, 100);
+      } else if (e.getSource() == element[16]) {
+        info[16] = new ImageIcon(getClass().getClassLoader().getResource("S_.png"));
+        element[16].setBounds(825, 175, 100, 100);
+      } else if (e.getSource() == element[17]) {
+        info[17] = new ImageIcon(getClass().getClassLoader().getResource("Cl_.png"));
+        element[17].setBounds(875, 175, 100, 100);
+      } else if (e.getSource() == element[18]) {
+        info[18] = new ImageIcon(getClass().getClassLoader().getResource("Ar_.png"));
+        element[18].setBounds(925, 175, 100, 100);
+      } else if (e.getSource() == element[19]) {
+        info[19] = new ImageIcon(getClass().getClassLoader().getResource("K_.png"));
+        element[19].setBounds(50, 225, 100, 100);
+      } else if (e.getSource() == element[20]) {
+        info[20] = new ImageIcon(getClass().getClassLoader().getResource("Ca_.png"));
+        element[20].setBounds(100, 225, 100, 100);
+      } else if (e.getSource() == element[21]) {
+        info[21] = new ImageIcon(getClass().getClassLoader().getResource("Sc_.png"));
+        element[21].setBounds(150, 225, 100, 100);
+      } else if (e.getSource() == element[22]) {
+        info[22] = new ImageIcon(getClass().getClassLoader().getResource("Ti_.png"));
+        element[22].setBounds(225, 225, 100, 100);
+      } else if (e.getSource() == element[23]) {
+        info[23] = new ImageIcon(getClass().getClassLoader().getResource("V_.png"));
+        element[23].setBounds(275, 225, 100, 100);
+      } else if (e.getSource() == element[24]) {
+        info[24] = new ImageIcon(getClass().getClassLoader().getResource("Cr_.png"));
+        element[24].setBounds(325, 225, 100, 100);
+      } else if (e.getSource() == element[25]) {
+        info[25] = new ImageIcon(getClass().getClassLoader().getResource("Mn_.png"));
+        element[25].setBounds(375, 225, 100, 100);
+      } else if (e.getSource() == element[26]) {
+        info[26] = new ImageIcon(getClass().getClassLoader().getResource("Fe_.png"));
+        element[26].setBounds(425, 225, 100, 100);
+      } else if (e.getSource() == element[27]) {
+        info[27] = new ImageIcon(getClass().getClassLoader().getResource("Co_.png"));
+        element[27].setBounds(475, 225, 100, 100);
+      } else if (e.getSource() == element[28]) {
+        info[28] = new ImageIcon(getClass().getClassLoader().getResource("Ni_.png"));
+        element[28].setBounds(525, 225, 100, 100);
+      } else if (e.getSource() == element[29]) {
+        info[29] = new ImageIcon(getClass().getClassLoader().getResource("Cu_.png"));
+        element[29].setBounds(575, 225, 100, 100);
+      } else if (e.getSource() == element[30]) {
+        info[30] = new ImageIcon(getClass().getClassLoader().getResource("Zn_.png"));
+        element[30].setBounds(625, 225, 100, 100);
+      } else if (e.getSource() == element[31]) {
+        info[31] = new ImageIcon(getClass().getClassLoader().getResource("Ga_.png"));
+        element[31].setBounds(675, 225, 100, 100);
+      } else if (e.getSource() == element[32]) {
+        info[32] = new ImageIcon(getClass().getClassLoader().getResource("Ge_.png"));
+        element[32].setBounds(725, 225, 100, 100);
+      } else if (e.getSource() == element[33]) {
+        info[33] = new ImageIcon(getClass().getClassLoader().getResource("As_.png"));
+        element[33].setBounds(775, 225, 100, 100);
+      } else if (e.getSource() == element[34]) {
+        info[34] = new ImageIcon(getClass().getClassLoader().getResource("Se_.png"));
+        element[34].setBounds(825, 225, 100, 100);
+      } else if (e.getSource() == element[35]) {
+        info[35] = new ImageIcon(getClass().getClassLoader().getResource("Br_.png"));
+        element[35].setBounds(875, 225, 100, 100);
+      } else if (e.getSource() == element[36]) {
+        info[36] = new ImageIcon(getClass().getClassLoader().getResource("Kr_.png"));
+        element[36].setBounds(925, 225, 100, 100);
+      } else if (e.getSource() == element[37]) {
+        info[37] = new ImageIcon(getClass().getClassLoader().getResource("Rb_.png"));
+        element[37].setBounds(50, 275, 100, 100);
+      } else if (e.getSource() == element[38]) {
+        info[38] = new ImageIcon(getClass().getClassLoader().getResource("Sr_.png"));
+        element[38].setBounds(100, 275, 100, 100);
+      } else if (e.getSource() == element[39]) {
+        info[39] = new ImageIcon(getClass().getClassLoader().getResource("Y_.png"));
+        element[39].setBounds(150, 275, 100, 100);
+      } else if (e.getSource() == element[40]) {
+        info[40] = new ImageIcon(getClass().getClassLoader().getResource("Zr_.png"));
+        element[40].setBounds(225, 275, 100, 100);
+      } else if (e.getSource() == element[41]) {
+        info[41] = new ImageIcon(getClass().getClassLoader().getResource("Nb_.png"));
+        element[41].setBounds(275, 275, 100, 100);
+      } else if (e.getSource() == element[42]) {
+        info[42] = new ImageIcon(getClass().getClassLoader().getResource("Mo_.png"));
+        element[42].setBounds(325, 275, 100, 100);
+      } else if (e.getSource() == element[43]) {
+        info[43] = new ImageIcon(getClass().getClassLoader().getResource("Tc_.png"));
+        element[43].setBounds(375, 275, 100, 100);
+      } else if (e.getSource() == element[44]) {
+        info[44] = new ImageIcon(getClass().getClassLoader().getResource("Ru_.png"));
+        element[44].setBounds(425, 275, 100, 100);
+      } else if (e.getSource() == element[45]) {
+        info[45] = new ImageIcon(getClass().getClassLoader().getResource("Rh_.png"));
+        element[45].setBounds(475, 275, 100, 100);
+      } else if (e.getSource() == element[46]) {
+        info[46] = new ImageIcon(getClass().getClassLoader().getResource("Pd_.png"));
+        element[46].setBounds(525, 275, 100, 100);
+      } else if (e.getSource() == element[47]) {
+        info[47] = new ImageIcon(getClass().getClassLoader().getResource("Ag_.png"));
+        element[47].setBounds(575, 275, 100, 100);
+      } else if (e.getSource() == element[48]) {
+        info[48] = new ImageIcon(getClass().getClassLoader().getResource("Cd_.png"));
+        element[48].setBounds(625, 275, 100, 100);
+      } else if (e.getSource() == element[49]) {
+        info[49] = new ImageIcon(getClass().getClassLoader().getResource("In_.png"));
+        element[49].setBounds(675, 275, 100, 100);
+      } else if (e.getSource() == element[50]) {
+        info[50] = new ImageIcon(getClass().getClassLoader().getResource("Sn_.png"));
+        element[50].setBounds(725, 275, 100, 100);
+      } else if (e.getSource() == element[51]) {
+        info[51] = new ImageIcon(getClass().getClassLoader().getResource("Sb_.png"));
+        element[51].setBounds(775, 275, 100, 100);
+      } else if (e.getSource() == element[52]) {
+        info[52] = new ImageIcon(getClass().getClassLoader().getResource("Te_.png"));
+        element[52].setBounds(825, 275, 100, 100);
+      } else if (e.getSource() == element[53]) {
+        info[53] = new ImageIcon(getClass().getClassLoader().getResource("I_.png"));
+        element[53].setBounds(875, 275, 100, 100);
+      } else if (e.getSource() == element[54]) {
+        info[54] = new ImageIcon(getClass().getClassLoader().getResource("Xe_.png"));
+        element[54].setBounds(925, 275, 100, 100);
+      } else if (e.getSource() == element[55]) {
+        info[55] = new ImageIcon(getClass().getClassLoader().getResource("Cs_.png"));
+        element[55].setBounds(50, 325, 100, 100);
+      } else if (e.getSource() == element[56]) {
+        info[56] = new ImageIcon(getClass().getClassLoader().getResource("Ba_.png"));
+        element[56].setBounds(100, 325, 100, 100);
+      } else if (e.getSource() == element[57]) {
+        info[57] = new ImageIcon(getClass().getClassLoader().getResource("La_.png"));
+        element[57].setBounds(150, 325, 100, 100);
+      } else if (e.getSource() == element[72]) {
+        info[72] = new ImageIcon(getClass().getClassLoader().getResource("Hf_.png"));
+        element[72].setBounds(225, 325, 100, 100);
+      } else if (e.getSource() == element[73]) {
+        info[73] = new ImageIcon(getClass().getClassLoader().getResource("Ta_.png"));
+        element[73].setBounds(275, 325, 100, 100);
+      } else if (e.getSource() == element[74]) {
+        info[74] = new ImageIcon(getClass().getClassLoader().getResource("W_.png"));
+        element[74].setBounds(325, 325, 100, 100);
+      } else if (e.getSource() == element[75]) {
+        info[75] = new ImageIcon(getClass().getClassLoader().getResource("Re_.png"));
+        element[75].setBounds(375, 325, 100, 100);
+      } else if (e.getSource() == element[76]) {
+        info[76] = new ImageIcon(getClass().getClassLoader().getResource("Os_.png"));
+        element[76].setBounds(425, 325, 100, 100);
+      } else if (e.getSource() == element[77]) {
+        info[77] = new ImageIcon(getClass().getClassLoader().getResource("Ir_.png"));
+        element[77].setBounds(475, 325, 100, 100);
+      } else if (e.getSource() == element[78]) {
+        info[78] = new ImageIcon(getClass().getClassLoader().getResource("Pt_.png"));
+        element[78].setBounds(525, 325, 100, 100);
+      } else if (e.getSource() == element[79]) {
+        info[79] = new ImageIcon(getClass().getClassLoader().getResource("Au_.png"));
+        element[79].setBounds(575, 325, 100, 100);
+      } else if (e.getSource() == element[80]) {
+        info[80] = new ImageIcon(getClass().getClassLoader().getResource("Hg_.png"));
+        element[80].setBounds(625, 325, 100, 100);
+      } else if (e.getSource() == element[81]) {
+        info[81] = new ImageIcon(getClass().getClassLoader().getResource("Tl_.png"));
+        element[81].setBounds(675, 325, 100, 100);
+      } else if (e.getSource() == element[82]) {
+        info[82] = new ImageIcon(getClass().getClassLoader().getResource("Pb_.png"));
+        element[82].setBounds(725, 325, 100, 100);
+      } else if (e.getSource() == element[83]) {
+        info[83] = new ImageIcon(getClass().getClassLoader().getResource("Bi_.png"));
+        element[83].setBounds(775, 325, 100, 100);
+      } else if (e.getSource() == element[84]) {
+        info[84] = new ImageIcon(getClass().getClassLoader().getResource("Po_.png"));
+        element[84].setBounds(825, 325, 100, 100);
+      } else if (e.getSource() == element[85]) {
+        info[85] = new ImageIcon(getClass().getClassLoader().getResource("At_.png"));
+        element[85].setBounds(875, 325, 100, 100);
+      } else if (e.getSource() == element[86]) {
+        info[86] = new ImageIcon(getClass().getClassLoader().getResource("Rn_.png"));
+        element[86].setBounds(925, 325, 100, 100);
+      } else if (e.getSource() == element[87]) {
+        info[87] = new ImageIcon(getClass().getClassLoader().getResource("Fr_.png"));
+        element[87].setBounds(50, 375, 100, 100);
+      } else if (e.getSource() == element[88]) {
+        info[88] = new ImageIcon(getClass().getClassLoader().getResource("Ra_.png"));
+        element[88].setBounds(100, 375, 100, 100);
+      } else if (e.getSource() == element[89]) {
+        info[89] = new ImageIcon(getClass().getClassLoader().getResource("Ac_.png"));
+        element[89].setBounds(150, 375, 100, 100);
+      } else if (e.getSource() == element[104]) {
+        info[104] = new ImageIcon(getClass().getClassLoader().getResource("Rf_.png"));
+        element[104].setBounds(225, 375, 100, 100);
+      } else if (e.getSource() == element[105]) {
+        info[105] = new ImageIcon(getClass().getClassLoader().getResource("Db_.png"));
+        element[105].setBounds(275, 375, 100, 100);
+      } else if (e.getSource() == element[106]) {
+        info[106] = new ImageIcon(getClass().getClassLoader().getResource("Sg_.png"));
+        element[106].setBounds(325, 375, 100, 100);
+      } else if (e.getSource() == element[107]) {
+        info[107] = new ImageIcon(getClass().getClassLoader().getResource("Bh_.png"));
+        element[107].setBounds(375, 375, 100, 100);
+      } else if (e.getSource() == element[108]) {
+        info[108] = new ImageIcon(getClass().getClassLoader().getResource("Hs_.png"));
+        element[108].setBounds(425, 375, 100, 100);
+      } else if (e.getSource() == element[109]) {
+        info[109] = new ImageIcon(getClass().getClassLoader().getResource("Mt_.png"));
+        element[109].setBounds(475, 375, 100, 100);
+      } else if (e.getSource() == element[110]) {
+        info[110] = new ImageIcon(getClass().getClassLoader().getResource("Ds_.png"));
+        element[110].setBounds(525, 375, 100, 100);
+      } else if (e.getSource() == element[111]) {
+        info[111] = new ImageIcon(getClass().getClassLoader().getResource("Rg_.png"));
+        element[111].setBounds(575, 375, 100, 100);
+      } else if (e.getSource() == element[112]) {
+        info[112] = new ImageIcon(getClass().getClassLoader().getResource("Cn_.png"));
+        element[112].setBounds(625, 375, 100, 100);
+      } else if (e.getSource() == element[113]) {
+        info[113] = new ImageIcon(getClass().getClassLoader().getResource("Nh_.png"));
+        element[113].setBounds(675, 375, 100, 100);
+      } else if (e.getSource() == element[114]) {
+        info[114] = new ImageIcon(getClass().getClassLoader().getResource("Fl_.png"));
+        element[114].setBounds(725, 375, 100, 100);
+      } else if (e.getSource() == element[115]) {
+        info[115] = new ImageIcon(getClass().getClassLoader().getResource("Mc_.png"));
+        element[115].setBounds(775, 375, 100, 100);
+      } else if (e.getSource() == element[116]) {
+        info[116] = new ImageIcon(getClass().getClassLoader().getResource("Lv_.png"));
+        element[116].setBounds(825, 375, 100, 100);
+      } else if (e.getSource() == element[117]) {
+        info[117] = new ImageIcon(getClass().getClassLoader().getResource("Ts_.png"));
+        element[117].setBounds(875, 375, 100, 100);
+      } else if (e.getSource() == element[118]) {
+        info[118] = new ImageIcon(getClass().getClassLoader().getResource("Og_.png"));
+        element[118].setBounds(925, 375, 100, 100);
+      } else if (e.getSource() == element[58]) {
+        info[58] = new ImageIcon(getClass().getClassLoader().getResource("Ce_.png"));
+        element[58].setBounds(225, 475, 100, 100);
+      } else if (e.getSource() == element[59]) {
+        info[59] = new ImageIcon(getClass().getClassLoader().getResource("Pr_.png"));
+        element[59].setBounds(275, 475, 100, 100);
+      } else if (e.getSource() == element[60]) {
+        info[60] = new ImageIcon(getClass().getClassLoader().getResource("Nd_.png"));
+        element[60].setBounds(325, 475, 100, 100);
+      } else if (e.getSource() == element[61]) {
+        info[61] = new ImageIcon(getClass().getClassLoader().getResource("Pm_.png"));
+        element[61].setBounds(375, 475, 100, 100);
+      } else if (e.getSource() == element[62]) {
+        info[62] = new ImageIcon(getClass().getClassLoader().getResource("Sm_.png"));
+        element[62].setBounds(425, 475, 100, 100);
+      } else if (e.getSource() == element[63]) {
+        info[63] = new ImageIcon(getClass().getClassLoader().getResource("Eu_.png"));
+        element[63].setBounds(475, 475, 100, 100);
+      } else if (e.getSource() == element[64]) {
+        info[64] = new ImageIcon(getClass().getClassLoader().getResource("Gd_.png"));
+        element[64].setBounds(525, 475, 100, 100);
+      } else if (e.getSource() == element[65]) {
+        info[65] = new ImageIcon(getClass().getClassLoader().getResource("Tb_.png"));
+        element[65].setBounds(575, 475, 100, 100);
+      } else if (e.getSource() == element[66]) {
+        info[66] = new ImageIcon(getClass().getClassLoader().getResource("Dy_.png"));
+        element[66].setBounds(625, 475, 100, 100);
+      } else if (e.getSource() == element[67]) {
+        info[67] = new ImageIcon(getClass().getClassLoader().getResource("Ho_.png"));
+        element[67].setBounds(675, 475, 100, 100);
+      } else if (e.getSource() == element[68]) {
+        info[68] = new ImageIcon(getClass().getClassLoader().getResource("Er_.png"));
+        element[68].setBounds(725, 475, 100, 100);
+      } else if (e.getSource() == element[69]) {
+        info[69] = new ImageIcon(getClass().getClassLoader().getResource("Tm_.png"));
+        element[69].setBounds(775, 475, 100, 100);
+      } else if (e.getSource() == element[70]) {
+        info[70] = new ImageIcon(getClass().getClassLoader().getResource("Yb_.png"));
+        element[70].setBounds(825, 475, 100, 100);
+      } else if (e.getSource() == element[71]) {
+        info[71] = new ImageIcon(getClass().getClassLoader().getResource("Lu_.png"));
+        element[71].setBounds(875, 475, 100, 100);
+      } else if (e.getSource() == element[90]) {
+        info[90] = new ImageIcon(getClass().getClassLoader().getResource("Th_.png"));
+        element[90].setBounds(225, 525, 100, 100);
+      } else if (e.getSource() == element[91]) {
+        info[91] = new ImageIcon(getClass().getClassLoader().getResource("Pa_.png"));
+        element[91].setBounds(275, 525, 100, 100);
+      } else if (e.getSource() == element[92]) {
+        info[92] = new ImageIcon(getClass().getClassLoader().getResource("U_.png"));
+        element[92].setBounds(325, 525, 100, 100);
+      } else if (e.getSource() == element[93]) {
+        info[93] = new ImageIcon(getClass().getClassLoader().getResource("Np_.png"));
+        element[93].setBounds(375, 525, 100, 100);
+      } else if (e.getSource() == element[94]) {
+        info[94] = new ImageIcon(getClass().getClassLoader().getResource("Pu_.png"));
+        element[94].setBounds(425, 525, 100, 100);
+      } else if (e.getSource() == element[95]) {
+        info[95] = new ImageIcon(getClass().getClassLoader().getResource("Am_.png"));
+        element[95].setBounds(475, 525, 100, 100);
+      } else if (e.getSource() == element[96]) {
+        info[96] = new ImageIcon(getClass().getClassLoader().getResource("Cm_.png"));
+        element[96].setBounds(525, 525, 100, 100);
+      } else if (e.getSource() == element[97]) {
+        info[97] = new ImageIcon(getClass().getClassLoader().getResource("Bk_.png"));
+        element[97].setBounds(575, 525, 100, 100);
+      } else if (e.getSource() == element[98]) {
+        info[98] = new ImageIcon(getClass().getClassLoader().getResource("Cf_.png"));
+        element[98].setBounds(625, 525, 100, 100);
+      } else if (e.getSource() == element[99]) {
+        info[99] = new ImageIcon(getClass().getClassLoader().getResource("Es_.png"));
+        element[99].setBounds(675, 525, 100, 100);
+      } else if (e.getSource() == element[100]) {
+        info[100] = new ImageIcon(getClass().getClassLoader().getResource("Fm_.png"));
+        element[100].setBounds(725, 525, 100, 100);
+      } else if (e.getSource() == element[101]) {
+        info[101] = new ImageIcon(getClass().getClassLoader().getResource("Md_.png"));
+        element[101].setBounds(775, 525, 100, 100);
+      } else if (e.getSource() == element[102]) {
+        info[102] = new ImageIcon(getClass().getClassLoader().getResource("No_.png"));
+        element[102].setBounds(825, 525, 100, 100);
+      } else if (e.getSource() == element[103]) {
+        info[103] = new ImageIcon(getClass().getClassLoader().getResource("Lr_.png"));
+        element[103].setBounds(875, 525, 100, 100);
+      } else {}
+    }
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+    for (int i = 0; i < 119; i++) {
+      if (e.getSource() == element[i]) {
+        element[i].setIcon(image[i]);
+      }
+
+      if (e.getSource() == element[1]) {
+        element[1].setBounds(50, 75, 50, 50);
+      } else if (e.getSource() == element[2]) {
+        element[2].setBounds(925, 75, 50, 50);
+      } else if (e.getSource() == element[3]) {
+        element[3].setBounds(50, 125, 50, 50);
+      } else if (e.getSource() == element[4]) {
+        element[4].setBounds(100, 125, 50, 50);
+      } else if (e.getSource() == element[5]) {
+        element[5].setBounds(675, 125, 50, 50);
+      } else if (e.getSource() == element[6]) {
+        element[6].setBounds(725, 125, 50, 50);
+      } else if (e.getSource() == element[7]) {
+        element[7].setBounds(775, 125, 50, 50);
+      } else if (e.getSource() == element[8]) {
+        element[8].setBounds(825, 125, 50, 50);
+      } else if (e.getSource() == element[9]) {
+        element[9].setBounds(875, 125, 50, 50);
+      } else if (e.getSource() == element[10]) {
+        element[10].setBounds(925, 125, 50, 50);
+      } else if (e.getSource() == element[11]) {
+        element[11].setBounds(50, 175, 50, 50);
+      } else if (e.getSource() == element[12]) {
+        element[12].setBounds(100, 175, 50, 50);
+      } else if (e.getSource() == element[13]) {
+        element[13].setBounds(675, 175, 50, 50);
+      } else if (e.getSource() == element[14]) {
+        element[14].setBounds(725, 175, 50, 50);
+      } else if (e.getSource() == element[15]) {
+        element[15].setBounds(775, 175, 50, 50);
+      } else if (e.getSource() == element[16]) {
+        element[16].setBounds(825, 175, 50, 50);
+      } else if (e.getSource() == element[17]) {
+        element[17].setBounds(875, 175, 50, 50);
+      } else if (e.getSource() == element[18]) {
+        element[18].setBounds(925, 175, 50, 50);
+      } else if (e.getSource() == element[19]) {
+        element[19].setBounds(50, 225, 50, 50);
+      } else if (e.getSource() == element[20]) {
+        element[20].setBounds(100, 225, 50, 50);
+      } else if (e.getSource() == element[21]) {
+        element[21].setBounds(150, 225, 50, 50);
+      } else if (e.getSource() == element[22]) {
+        element[22].setBounds(225, 225, 50, 50);
+      } else if (e.getSource() == element[23]) {
+        element[23].setBounds(275, 225, 50, 50);
+      } else if (e.getSource() == element[24]) {
+        element[24].setBounds(325, 225, 50, 50);
+      } else if (e.getSource() == element[25]) {
+        element[25].setBounds(375, 225, 50, 50);
+      } else if (e.getSource() == element[26]) {
+        element[26].setBounds(425, 225, 50, 50);
+      } else if (e.getSource() == element[27]) {
+        element[27].setBounds(475, 225, 50, 50);
+      } else if (e.getSource() == element[28]) {
+        element[28].setBounds(525, 225, 50, 50);
+      } else if (e.getSource() == element[29]) {
+        element[29].setBounds(575, 225, 50, 50);
+      } else if (e.getSource() == element[30]) {
+        element[30].setBounds(625, 225, 50, 50);
+      } else if (e.getSource() == element[31]) {
+        element[31].setBounds(675, 225, 50, 50);
+      } else if (e.getSource() == element[32]) {
+        element[32].setBounds(725, 225, 50, 50);
+      } else if (e.getSource() == element[33]) {
+        element[33].setBounds(775, 225, 50, 50);
+      } else if (e.getSource() == element[34]) {
+        element[34].setBounds(825, 225, 50, 50);
+      } else if (e.getSource() == element[35]) {
+        element[35].setBounds(875, 225, 50, 50);
+      } else if (e.getSource() == element[36]) {
+        element[36].setBounds(925, 225, 50, 50);
+      } else if (e.getSource() == element[37]) {
+        element[37].setBounds(50, 275, 50, 50);
+      } else if (e.getSource() == element[38]) {
+        element[38].setBounds(100, 275, 50, 50);
+      } else if (e.getSource() == element[39]) {
+        element[39].setBounds(150, 275, 50, 50);
+      } else if (e.getSource() == element[40]) {
+        element[40].setBounds(225, 275, 50, 50);
+      } else if (e.getSource() == element[41]) {
+        element[41].setBounds(275, 275, 50, 50);
+      } else if (e.getSource() == element[42]) {
+        element[42].setBounds(325, 275, 50, 50);
+      } else if (e.getSource() == element[43]) {
+        element[43].setBounds(375, 275, 50, 50);
+      } else if (e.getSource() == element[44]) {
+        element[44].setBounds(425, 275, 50, 50);
+      } else if (e.getSource() == element[45]) {
+        element[45].setBounds(475, 275, 50, 50);
+      } else if (e.getSource() == element[46]) {
+        element[46].setBounds(525, 275, 50, 50);
+      } else if (e.getSource() == element[47]) {
+        element[47].setBounds(575, 275, 50, 50);
+      } else if (e.getSource() == element[48]) {
+        element[48].setBounds(625, 275, 50, 50);
+      } else if (e.getSource() == element[49]) {
+        element[49].setBounds(675, 275, 50, 50);
+      } else if (e.getSource() == element[50]) {
+        element[50].setBounds(725, 275, 50, 50);
+      } else if (e.getSource() == element[51]) {
+        element[51].setBounds(775, 275, 50, 50);
+      } else if (e.getSource() == element[52]) {
+        element[52].setBounds(825, 275, 50, 50);
+      } else if (e.getSource() == element[53]) {
+        element[53].setBounds(875, 275, 50, 50);
+      } else if (e.getSource() == element[54]) {
+        element[54].setBounds(925, 275, 50, 50);
+      } else if (e.getSource() == element[55]) {
+        element[55].setBounds(50, 325, 50, 50);
+      } else if (e.getSource() == element[56]) {
+        element[56].setBounds(100, 325, 50, 50);
+      } else if (e.getSource() == element[57]) {
+        element[57].setBounds(150, 325, 50, 50);
+      } else if (e.getSource() == element[72]) {
+        element[72].setBounds(225, 325, 50, 50);
+      } else if (e.getSource() == element[73]) {
+        element[73].setBounds(275, 325, 50, 50);
+      } else if (e.getSource() == element[74]) {
+        element[74].setBounds(325, 325, 50, 50);
+      } else if (e.getSource() == element[75]) {
+        element[75].setBounds(375, 325, 50, 50);
+      } else if (e.getSource() == element[76]) {
+        element[76].setBounds(425, 325, 50, 50);
+      } else if (e.getSource() == element[77]) {
+        element[77].setBounds(475, 325, 50, 50);
+      } else if (e.getSource() == element[78]) {
+        element[78].setBounds(525, 325, 50, 50);
+      } else if (e.getSource() == element[79]) {
+        element[79].setBounds(575, 325, 50, 50);
+      } else if (e.getSource() == element[80]) {
+        element[80].setBounds(625, 325, 50, 50);
+      } else if (e.getSource() == element[81]) {
+        element[81].setBounds(675, 325, 50, 50);
+      } else if (e.getSource() == element[82]) {
+        element[82].setBounds(725, 325, 50, 50);
+      } else if (e.getSource() == element[83]) {
+        element[83].setBounds(775, 325, 50, 50);
+      } else if (e.getSource() == element[84]) {
+        element[84].setBounds(825, 325, 50, 50);
+      } else if (e.getSource() == element[85]) {
+        element[85].setBounds(875, 325, 50, 50);
+      } else if (e.getSource() == element[86]) {
+        element[86].setBounds(925, 325, 50, 50);
+      } else if (e.getSource() == element[87]) {
+        element[87].setBounds(50, 375, 50, 50);
+      } else if (e.getSource() == element[88]) {
+        element[88].setBounds(100, 375, 50, 50);
+      } else if (e.getSource() == element[89]) {
+        element[89].setBounds(150, 375, 50, 50);
+      } else if (e.getSource() == element[104]) {
+        element[104].setBounds(225, 375, 50, 50);
+      } else if (e.getSource() == element[105]) {
+        element[105].setBounds(275, 375, 50, 50);
+      } else if (e.getSource() == element[106]) {
+        element[106].setBounds(325, 375, 50, 50);
+      } else if (e.getSource() == element[107]) {
+        element[107].setBounds(375, 375, 50, 50);
+      } else if (e.getSource() == element[108]) {
+        element[108].setBounds(425, 375, 50, 50);
+      } else if (e.getSource() == element[109]) {
+        element[109].setBounds(475, 375, 50, 50);
+      } else if (e.getSource() == element[110]) {
+        element[110].setBounds(525, 375, 50, 50);
+      } else if (e.getSource() == element[111]) {
+        element[111].setBounds(575, 375, 50, 50);
+      } else if (e.getSource() == element[112]) {
+        element[112].setBounds(625, 375, 50, 50);
+      } else if (e.getSource() == element[113]) {
+        element[113].setBounds(675, 375, 50, 50);
+      } else if (e.getSource() == element[114]) {
+        element[114].setBounds(725, 375, 50, 50);
+      } else if (e.getSource() == element[115]) {
+        element[115].setBounds(775, 375, 50, 50);
+      } else if (e.getSource() == element[116]) {
+        element[116].setBounds(825, 375, 50, 50);
+      } else if (e.getSource() == element[117]) {
+        element[117].setBounds(875, 375, 50, 50);
+      } else if (e.getSource() == element[118]) {
+        element[118].setBounds(925, 375, 50, 50);
+      } else if (e.getSource() == element[58]) {
+        element[58].setBounds(225, 475, 50, 50);
+      } else if (e.getSource() == element[59]) {
+        element[59].setBounds(275, 475, 50, 50);
+      } else if (e.getSource() == element[60]) {
+        element[60].setBounds(325, 475, 50, 50);
+      } else if (e.getSource() == element[61]) {
+        element[61].setBounds(375, 475, 50, 50);
+      } else if (e.getSource() == element[62]) {
+        element[62].setBounds(425, 475, 50, 50);
+      } else if (e.getSource() == element[63]) {
+        element[63].setBounds(475, 475, 50, 50);
+      } else if (e.getSource() == element[64]) {
+        element[64].setBounds(525, 475, 50, 50);
+      } else if (e.getSource() == element[65]) {
+        element[65].setBounds(575, 475, 50, 50);
+      } else if (e.getSource() == element[66]) {
+        element[66].setBounds(625, 475, 50, 50);
+      } else if (e.getSource() == element[67]) {
+        element[67].setBounds(675, 475, 50, 50);
+      } else if (e.getSource() == element[68]) {
+        element[68].setBounds(725, 475, 50, 50);
+      } else if (e.getSource() == element[69]) {
+        element[69].setBounds(775, 475, 50, 50);
+      } else if (e.getSource() == element[70]) {
+        element[70].setBounds(825, 475, 50, 50);
+      } else if (e.getSource() == element[71]) {
+        element[71].setBounds(875, 475, 50, 50);
+      } else if (e.getSource() == element[90]) {
+        element[90].setBounds(225, 525, 50, 50);
+      } else if (e.getSource() == element[91]) {
+        element[91].setBounds(275, 525, 50, 50);
+      } else if (e.getSource() == element[92]) {
+        element[92].setBounds(325, 525, 50, 50);
+      } else if (e.getSource() == element[93]) {
+        element[93].setBounds(375, 525, 50, 50);
+      } else if (e.getSource() == element[94]) {
+        element[94].setBounds(425, 525, 50, 50);
+      } else if (e.getSource() == element[95]) {
+        element[95].setBounds(475, 525, 50, 50);
+      } else if (e.getSource() == element[96]) {
+        element[96].setBounds(525, 525, 50, 50);
+      } else if (e.getSource() == element[97]) {
+        element[97].setBounds(575, 525, 50, 50);
+      } else if (e.getSource() == element[98]) {
+        element[98].setBounds(625, 525, 50, 50);
+      } else if (e.getSource() == element[99]) {
+        element[99].setBounds(675, 525, 50, 50);
+      } else if (e.getSource() == element[100]) {
+        element[100].setBounds(725, 525, 50, 50);
+      } else if (e.getSource() == element[101]) {
+        element[101].setBounds(775, 525, 50, 50);
+      } else if (e.getSource() == element[102]) {
+        element[102].setBounds(825, 525, 50, 50);
+      } else if (e.getSource() == element[103]) {
+        element[103].setBounds(875, 525, 50, 50);
+      } else {}
+    }
+  }
+  @Override
+  public void itemStateChanged(ItemEvent e) {
+    int off = e.getStateChange();
+    if (off == ItemEvent.SELECTED) {
+      toggle.setIcon(OFF);
+      for (int i = 1; i < 119; i++) {
+        element[i].removeMouseListener(this);
+      }
+    } else {
+      toggle.setIcon(ON);
+      for (int i = 1; i < 119; i++) {
+        element[i].addMouseListener(this);
+      }
+    }
+  }
+}
+
+/*
+Properties.java
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class Properties extends JFrame{
+	
+private static final long serialVersionUID= 1L;
+
+public JLabel []properties;
+static JPanel propertiesPanel;
+Properties(){
+	properties=new JLabel[119];
+	properties[1]=new JLabel(new ImageIcon(getClass().getClassLoader().getResource("H_properties.png")));
+	properties[2]=new JLabel(new ImageIcon(getClass().getClassLoader().getResource("He_properties.png")));
+	
+	propertiesPanel=new JPanel();
+	propertiesPanel.add(properties[1]);
+	this.add(propertiesPanel);
+	this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	this.setResizable(false);
+	this.setSize(1250,340);
+	
+}}
+*/
